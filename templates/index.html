@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	    <meta name="description" content="">
+	    <meta name="author" content="">
+
+	    <title>Recommendations</title>
+
+	    <!-- Bootstrap core CSS -->
+	    <link href="{{ bootstrap_path }}" rel="stylesheet">
+    </head>
+	<body>
+		<style>
+		
+		</style>
+
+		<div class="container">
+			<div class="page-header">
+	        	<h1>Recommendations</h1>
+	        </div>
+	        <div class="list-group">
+				<div class="jsons"></div>
+			</div>
+		</div>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+
+		<script>
+
+		{% autoescape false %}	
+		jsons = [{{ jsons }}]
+		{% endautoescape %}
+
+		panel = d3.select(".jsons")
+			.selectAll("a")
+			.data(jsons)
+			.enter().append("a").attr("class", "list-group-item")
+					.attr("href", function(d) { return d; })
+					.text(function(d) { return d; });
+
+		</script>
+	</body>
+</html>
