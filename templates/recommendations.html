@@ -11,75 +11,117 @@
 	    <title>Recommendations</title>
 
 	    <!-- Bootstrap core CSS -->
-	    <link href="{{ bootstrap_path }}" rel="stylesheet">
-	    <script src='https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.0.1/spin.min.js'></script> 
-	    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
-    </head>
+	    <link href="static/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	    <link href="static/css/feed.css" rel="stylesheet">
+	</head>
 	<body>
-		<style>
-		.topics .panel{
-			width: 70%;
-			margin-left: auto;
-    		margin-right: auto;
-		}
-		</style>
-
+		{% raw %}
 		<div class="container">
-			<div class="page-header">
+			<header class="page-header">
 	        	<h1>Recommendations</h1>
-	        </div>
-			<div class="topics"></div>
+	        </header>
+
+			<ul class="nav nav-tabs" id="topics-tabs"></ul>
+			<script id="topics-tabs-template" type="x-tmpl-handlebars">
+				{{#each topics}}
+					<li{{#if @first}} class="active"{{/if}}>
+					<a href="#{{topic_id}}" data-toggle="tab"> 
+						{{first_word topic_description}} 
+					</a>
+					</li>
+				{{/each}}
+			</script>
+
+			<section class="tab-content" id="topics-content"></section>
+			<script id="topics-content-template" type="x-tmpl-handlebars">
+				{{#each topics}}
+					<div class="tab-pane fade {{#if @first}}in active{{/if}}" id="{{topic_id}}">
+					<div class="panel panel-default">
+						<header class="panel-heading">
+						<div class="row">
+							<section class="topic-description col-md-10"> {{topic_description}} </section>
+							<div class="lbuttons col-md-2">
+
+							<a href="#" class="btn btn-danger pull-right">
+							<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true">
+							</span>
+							</a>
+
+							<a href="#" class="btn btn-success pull-right">
+							<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">
+							</span>
+							</a>
+
+							</div>
+						</div>
+						</header>
+
+						<section class="panel-body">
+						<div class="list-group">
+						{{#each posts}}
+							<div class="list-group-item">
+							<div class="row">
+								<article class="col-md-10 post-url">
+								<a class="post-url" href="{{url}}">{{title}}</a>
+								
+								<div class="meta row">
+									<footer class="col-md-8 row">
+									<div class="col-md-2 post-comments">
+										Comments: {{comments_count}}
+									</div>
+
+									<div class="col-md-2 post-favs">
+										In favorites: {{favs_count}}
+									</div>
+
+									<div class="col-md-2 post-views">
+										Views: {{pageviews}}
+									</div>
+
+									<div class="col-md-2 post-date">
+										{{format_date published.$date}}
+									</div>
+									</footer>
+								</div>
+								</article>
+
+								<div class="col-md-2 post-lbuttons">
+									<a href="#" class="btn btn-danger pull-right">
+									<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true">
+									</span>
+									</a>
+
+									<a href="#" class="btn btn-success pull-right">
+									<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">
+									</span>
+									</a>
+								</div>
+							</div>
+							</div>
+						{{/each}}
+						</div>
+						</section>
+					</div>
+					</div>
+				{{/each}}
+			</script>
 		</div>
+		{% endraw %}
+
+		<section id="previews"></section>
 
 		<script>
-
-		var target = document.getElementsByClassName("topics")[0]
-
-		var opts = {
-		  lines: 9, // The number of lines to draw
-		  length: 20, // The length of each line
-		  width: 10, // The line thickness
-		  radius: 30, // The radius of the inner circle
-		  color: '#3b5998', // #rgb or #rrggbb or array of colors
-		  speed: 0.5, // Rounds per second
-		  trail: 40, // Afterglow percentage
-		  className: 'spinner', // The CSS class to assign to the spinner
-		};
-
-		function init() {
-		    var spinner = new Spinner(opts).spin(target);			    		    		   
-		    d3.json("{{ json_path }}", function(error, data) {	
-		    	if (error) throw error;	            
-	    		spinner.stop();		            
-	            show_recommendations(data);
-	        });	
-		}
-
-		init();
-
-		function show_recommendations(data) {
-			panel = d3.select(".topics")
-				.selectAll("div")
-				.data(data.topics)
-				.enter().append("div").attr("class", "panel panel-default");
-
-			panel.append("div").attr("class", "panel-heading")
-					.text(function(d) { return d.topic_description; });
-
-			panel_body = panel.append("div").attr("class", "panel-body");
-
-			panel_body.append("div").attr("class", "list-group")
-					.selectAll("a")
-					.data(function(d) { return d.posts.slice(0, 5); })
-					.enter().append("a").attr("class", "list-group-item")
-						.attr("href", function(d) { return d.url; })
-						.html(function(d) { return d.title + 
-							'<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" style="float:right"></span>'; });
-
-			panel_body.append("a").attr("href", "#").attr("class", "btn btn-primary").text("Continue reading");
-		}
-
+			{% autoescape false %}	
+			json_path = "{{ json_path }}"
+			{% endautoescape %}
 		</script>
+		
+		<script src="static/bower_components/jquery/dist/jquery.js"></script>
+		<script src="static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="static/bower_components/moment/moment.js"></script>
+		<script src="static/bower_components/spin.js/spin.min.js"></script>
+		<script src="static/bower_components/handlebars/handlebars.js"></script>
+		<script src="static/js/generate_feed.js"></script>
 	</body>
 </html>
 

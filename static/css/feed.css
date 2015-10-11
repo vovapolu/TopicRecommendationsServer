@@ -1,0 +1,21 @@
+.topics-content .panel {
+	width: 70%;
+	margin-left: auto;
+    margin-right: auto;
+}
+
+.lbuttons .btn {
+	margin: 2%;
+}
+
+.post-lbuttons .btn {
+	margin: 2%;
+}
+
+.post-date,
+.post-views,
+.post-favs,
+.post-comments {
+	font-size: 80%;
+	white-space: nowrap;
+}
