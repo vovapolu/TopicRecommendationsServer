@@ -1,0 +1,28 @@
+{
+  "name": "topic_recommendations",
+  "version": "0.0.1",
+  "homepage": "https://github.com/vovapolu/TopicRecommendationsServer",
+  "authors": [
+    "Vladimir Poluhsin <vovapolu@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "handlebars": "~4.0.3",
+    "moment": "~2.10.6",
+    "spin.js": "git@github.com:fgnass/spin.js.git#~2.3.2"
+  }
+}

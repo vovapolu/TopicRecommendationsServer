@@ -1,127 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-	    <meta charset="utf-8">
-	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	    <meta name="viewport" content="width=device-width, initial-scale=1">
-	    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-	    <meta name="description" content="">
-	    <meta name="author" content="">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-	    <title>Recommendations</title>
+  <title>Recommendations</title>
 
-	    <!-- Bootstrap core CSS -->
-	    <link href="static/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-	    <link href="static/css/feed.css" rel="stylesheet">
-	</head>
-	<body>
-		{% raw %}
-		<div class="container">
-			<header class="page-header">
-	        	<h1>Recommendations</h1>
-	        </header>
+  <!-- Bootstrap core CSS -->
+  <link href="static/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/css/feed.css" rel="stylesheet">
+  </head>
+  <body>
+  {% raw %}
+  <div class="container">
+    <header class="page-header">
+   		<h1>Recommendations</h1>
+  	</header>
 
-			<ul class="nav nav-tabs" id="topics-tabs"></ul>
-			<script id="topics-tabs-template" type="x-tmpl-handlebars">
-				{{#each topics}}
-					<li{{#if @first}} class="active"{{/if}}>
-					<a href="#{{topic_id}}" data-toggle="tab"> 
-						{{first_word topic_description}} 
-					</a>
-					</li>
-				{{/each}}
-			</script>
+  	<!-- tabs -->
+    <ul class="nav nav-tabs" id="topics-tabs"></ul>
+    <script id="topics-tabs-template" type="x-tmpl-handlebars">
+    {{#each topics}}
+      <li{{#if @first}} class="active"{{/if}}>
+      	<a href="#{{topic_id}}" data-toggle="tab"> 
+      		{{first_word topic_description}} 
+      	</a>
+      </li>
+    {{/each}}
+    </script>
 
-			<section class="tab-content" id="topics-content"></section>
-			<script id="topics-content-template" type="x-tmpl-handlebars">
-				{{#each topics}}
-					<div class="tab-pane fade {{#if @first}}in active{{/if}}" id="{{topic_id}}">
-					<div class="panel panel-default">
-						<header class="panel-heading">
-						<div class="row">
-							<section class="topic-description col-md-10"> {{topic_description}} </section>
-							<div class="lbuttons col-md-2">
+    <!-- tab content -->
+    <section class="tab-content" id="topics-content"></section>
+    <script id="topics-content-template" type="x-tmpl-handlebars">
+    {{#each topics}}
+      <div class="tab-pane fade {{#if @first}}in active{{/if}}" id="{{topic_id}}">
+      	<div class="panel panel-default">
+      		<header class="panel-heading">
+      			<div class="row">
+        			<section class="topic-description col-md-10"> {{topic_description}} </section>
+	        		
+	        		<div class="lbuttons col-md-2">
+		        		<a href="#" class="btn btn-danger pull-right">
+		        			<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+		        		</a>
 
-							<a href="#" class="btn btn-danger pull-right">
-							<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true">
-							</span>
-							</a>
+		        		<a href="#" class="btn btn-success pull-right">
+		        			<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+								</a>
+	        		</div>
+      			</div>
+      		</header>
 
-							<a href="#" class="btn btn-success pull-right">
-							<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">
-							</span>
-							</a>
+      		<section class="panel-body">
+      			<div class="list-group">
+      				{{#each posts}}
+        				<div class="list-group-item">
+        					<div class="row">
+        						<article class="col-md-10 post-url">
+							        <a class="post-url" href="{{url}}">{{title}}</a>
+							        
+							        <div class="meta row">
+							          <footer class="col-md-8 row">
+							          	<div class="col-md-2 post-comments">
+							          		Comments: {{comments_count}}
+							          	</div>
 
-							</div>
-						</div>
-						</header>
+							          	<div class="col-md-2 post-favs">
+							          		In favorites: {{favs_count}}
+							          	</div>
 
-						<section class="panel-body">
-						<div class="list-group">
-						{{#each posts}}
-							<div class="list-group-item">
-							<div class="row">
-								<article class="col-md-10 post-url">
-								<a class="post-url" href="{{url}}">{{title}}</a>
-								
-								<div class="meta row">
-									<footer class="col-md-8 row">
-									<div class="col-md-2 post-comments">
-										Comments: {{comments_count}}
-									</div>
+							          	<div class="col-md-2 post-views">
+							          		Views: {{pageviews}}
+							          	</div>
 
-									<div class="col-md-2 post-favs">
-										In favorites: {{favs_count}}
-									</div>
+							          	<div class="col-md-2 post-date">
+							          		{{format_date published.$date}}
+							          	</div>
+							          </footer>
+							        </div>
 
-									<div class="col-md-2 post-views">
-										Views: {{pageviews}}
-									</div>
+							        <div>
+							          {{#each tags}}
+							          	<div class="post-tag">
+							          		#{{this}}
+							          	</div>
+							          {{/each}}
+							        </div>
 
-									<div class="col-md-2 post-date">
-										{{format_date published.$date}}
-									</div>
-									</footer>
-								</div>
-								</article>
+        							<div class="preview">
+        								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-{{post_id}}">
+  												Preview
+												</button>
+        							</div>
+        
+        						</article>
 
-								<div class="col-md-2 post-lbuttons">
-									<a href="#" class="btn btn-danger pull-right">
-									<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true">
-									</span>
-									</a>
+						        <div class="col-md-2 post-lbuttons">
+						          <a href="#" class="btn btn-danger pull-right">
+						          	<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+						          </a>
 
-									<a href="#" class="btn btn-success pull-right">
-									<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">
-									</span>
-									</a>
-								</div>
-							</div>
-							</div>
-						{{/each}}
-						</div>
-						</section>
-					</div>
-					</div>
-				{{/each}}
-			</script>
-		</div>
-		{% endraw %}
+						          <a href="#" class="btn btn-success pull-right">
+						          	<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+						          </a>
+						        </div>
+						     	</div>
+						    </div>
+      				{{/each}}
+      			</div>
+      		</section>
+      	</div>
+      </div>
+    {{/each}}
+    </script>
 
-		<section id="previews"></section>
+    <section id="preview-modals"></section>
+    <script id="preview-modals-template" type="x-tmpl-handlebars">
+    {{#each topics}}
+    {{#each posts}}
+    <div class="modal fade" id="modal-{{post_id}}" tabindex="-1" role="dialog" aria-labelledby="modal-label-{{post_id}}">
+      <div class="modal-dialog" role="document">
+      	<div class="modal-content">
+      		
+      		<div class="modal-header">
+      			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      				<h4 class="modal-title" id="modal-label-{{post_id}}">Preview</h4>
+      		</div>
+      		
+      		<div class="modal-body">
+      		{{{short_content_html}}}
+      		</div>
 
-		<script>
-			{% autoescape false %}	
-			json_path = "{{ json_path }}"
-			{% endautoescape %}
-		</script>
-		
-		<script src="static/bower_components/jquery/dist/jquery.js"></script>
-		<script src="static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-		<script src="static/bower_components/moment/moment.js"></script>
-		<script src="static/bower_components/spin.js/spin.min.js"></script>
-		<script src="static/bower_components/handlebars/handlebars.js"></script>
-		<script src="static/js/generate_feed.js"></script>
-	</body>
+      	</div>
+      </div>
+    </div>
+    {{/each}}
+    {{/each}}
+    </script>
+    <!-- modals -->
+
+  </div>
+  {% endraw %}
+
+  <script>
+    {% autoescape false %}  
+    json_path = "{{ json_path }}"
+    {% endautoescape %}
+  </script>
+  
+  <script src="static/bower_components/jquery/dist/jquery.js"></script>
+  <script src="static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="static/bower_components/moment/moment.js"></script>
+  <script src="static/bower_components/spin.js/spin.min.js"></script>
+  <script src="static/bower_components/handlebars/handlebars.js"></script>
+  <script src="static/js/generate_feed.js"></script>
+  </body>
 </html>
 

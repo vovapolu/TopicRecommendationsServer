@@ -15,7 +15,26 @@
 .post-date,
 .post-views,
 .post-favs,
-.post-comments {
+.post-comments,
+.post-tag
+{
 	font-size: 80%;
 	white-space: nowrap;
+}
+
+.post-tag {
+	margin-right: 1%;
+	float: left;
+}
+
+.preview {
+	clear: both;
+}
+
+.btn-preview {
+	margin-top: 1%;
+}
+
+.modal-body img {
+  width: 100%;
 }

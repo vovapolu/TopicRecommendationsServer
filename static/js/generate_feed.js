@@ -12,6 +12,9 @@ var template_tabs = Handlebars.compile(source_tabs);
 var source_content = $('#topics-content-template').html()
 var template_content = Handlebars.compile(source_content)
 
+var source_modals = $('#preview-modals-template').html()
+var template_modals = Handlebars.compile(source_modals)
+
 var target = document.getElementById("topics-tabs")
 
 var opts = {
@@ -29,8 +32,9 @@ function generate_feed() {
     var spinner = new Spinner(opts).spin(target);
     $.getJSON(json_path, function(data) {
     	spinner.stop();		            
-		$("#topics-tabs").html(template_tabs(data));
+		$('#topics-tabs').html(template_tabs(data));
 		$('#topics-content').html(template_content(data));
+    $('#preview-modals').html(template_modals(data));
 	});		    		    		  
 }
 
